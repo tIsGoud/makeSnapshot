@@ -1,0 +1,5 @@
+# Exclude the yaml configuration files
+*.yaml
+
+# Do not share your personal notes
+notes.md
