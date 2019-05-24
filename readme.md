@@ -1,6 +1,6 @@
 # makeSnapshot
 
-[makeSnapshot](img/makeSnapshot.png)
+![makeSnapshot](img/makeSnapshot.png)
 
 makeSnapshot is a CLI tool to create a snapshot of a virtual machine on the KPN vRA platform.
 Restricted by a platform policy only one snapshot per VM is allowed. The default behaviour is to overwrite the existing snapshot.
