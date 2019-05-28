@@ -109,7 +109,7 @@ Jenkins takes notion of the status code.
 
 Sample output for a succesfull request, a failing request and how to display the exit status code:
 
-```bash
+```
 $ ./makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t
 2019/05/29 01:33:15 Using config file: myConfig.yaml
 2019/05/29 01:33:15 Creating snapshot of virtual machine "myVirtualMachineToSnap" for tenant "tIsGoud"
