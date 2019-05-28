@@ -31,10 +31,19 @@ var sampleConfigFile string
 
 // generateConfigCmd represents the generateConfig command
 var generateConfigCmd = &cobra.Command{
-	Use:     "generateConfig",
-	Short:   "Generate a sample configuration file for makeSnapshot",
-	Long:    `The generateConfig option creates an empty default configuration file in the application directory.`,
-	Example: `makeSnapshot generateConfig`,
+	Use:   "generateConfig",
+	Short: "Generate a sample configuration file",
+	Long: `
+The generateConfig option creates a sample configuration file.
+
+By default a sample configuration is created in the current directory.
+Use the '-s' flag to create a non-default config file (different name, different location).`,
+	Example: `  Create the default config file:
+  makeSnapshot generateConfig
+
+  Create a non-default config file:
+  makeSnapshot generateConfig -s ~/myconfigfile.yaml
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		writeSampleConfigFile(sampleConfigFile)
 	},

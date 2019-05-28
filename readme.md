@@ -10,7 +10,7 @@ Before we had to go into the vRA portal to create a snapshot manually, now we ca
 
 ## vRA API's
 
-Several API calls are needed to creates a snapshot of the virtual machine. I wrote a blogpost [Creating a snapshot via the vRA API](https://tisgoud.nl/creating-a-snapshot-via-the-vra-api/) describing the different vRA API-calls.
+Several API calls are needed to creates a snapshot of the virtual machine. I wrote a blogpost "[Creating a snapshot via the vRA API](https://tisgoud.nl/creating-a-snapshot-via-the-vra-api/)" describing the different vRA API-calls.
 
 ## Config file
 
@@ -37,31 +37,31 @@ Create a non-default config file: `$ makeSnapshot generateConfig -s ~/myconfigfi
 
 The command line options can be used in the shorthand form `-c [value]` or `-c=[value]`.
 
-### -c or --config
+### --config or -c
 
-Load a different configuration file, different name, different location.
+Load a non-default configuration file, different name, different location.
 
-Optional flag. In addition a string value has to be provided.
+_Optional flag. In addition a string value has to be provided._
 
-### -d or --domain
+### --domain or -d
 
 The 'domain' flag overrides the login domain provided in the config file.
 
 _Optional flag._
 
-### -r or --dry-run
+### --dry-run or -r
 
 The 'dry-run' flags enable you to run the application against your environment testing the configuration without making the actual request for a snapshot.
 
 _Optional flag._
 
-### -h or --help
+### --help or -h
 
 Help for makeSnapshot application.
 
 _Optional flag._
 
-### -k or --keepExisting
+### --keepExisting or -k
 
 Only one snapshot is allowed due to a platform policy. The default behaviour is to overwrite the existing snapshot. The 'keepExisting' flag makes sure that the existing snapshot is not overwritten.
 
@@ -69,16 +69,16 @@ When a snapshot exists and the 'keepExisting' flag is used the application will 
 
 _Optional flag._
 
-### -m or --machineName
+### --machineName or -m
 
 The 'machineName' is a required flag, it expects an additional case-sensitive string as input parameter. The 'machineName' is the name of the virtual machine to snapshot.
 Take note that in the vRA portal the name will be shown with a three letter prefix (tenant specific prefix), this prefix is ignored in the search.
 
 _Mandatory flag. In addition a case-sensitive string value has to be provided._
 
-### -t or --trace
+### --trace or -t
 
-The 'trace' flag provides information on the different steps of the application. These different steps are described in my blogpost [Creating a snapshot via the vRA API](https://tisgoud.nl/creating-a-snapshot-via-the-vra-api/).
+The 'trace' flag provides information on the different steps of the application. These different steps are described in my blogpost "[Creating a snapshot via the vRA API](https://tisgoud.nl/creating-a-snapshot-via-the-vra-api/)".
 
 _Optional flag._
 
@@ -90,7 +90,7 @@ _Optional flag._
 
 ## Running the app
 
-THe application interacts with vRA by calling the vRA APIs. The first API calls are merely initialization, once the request is send to create the snapshot vRA processes the request. The request is send from from vRA to vRO to vCenter etc. The processing time is depending on the load of the system but usually takes about half-a-minute.
+The application interacts with vRA by calling the vRA APIs. The first API calls are merely initialization, once the "create snapshot" request is send, vRA processes the request. The request is send from from vRA to vRO to vCenter etc. The processing time is depending on the load of the system but usually takes about half-a-minute.
 
 The status of the request is checked every 10 seconds until the status is 'succesfull' or 'failed'.
 
@@ -109,7 +109,7 @@ Being it a CLI-tool I used the combination of [Cobra](https://github.com/spf13/c
 
 ## Build
 
-The software is developed on a Mac. The Linux version was created with the following command:
+The software was developed on a Mac. The Linux version was created with the following command:
 
 `env GOOS=linux GOARCH=386 go build .`
 

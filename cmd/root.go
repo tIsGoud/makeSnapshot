@@ -47,7 +47,7 @@ var (
 
 // Internal variables
 var (
-	version           = "0.9.2"
+	version           = "0.9.4"
 	defaultConfigName = "makeSnapshot"
 	userAgent         = "makeSnapShot " + version // Useragent with version number is used in the HTTP requests
 )
@@ -77,7 +77,7 @@ password: "password"
 ...
 
 When the snapshot is created the app exits with status code 0.
-Otherwise the app exits with status code 1.
+On failure the app exits with status code 1 or higher.
 The exit code is not displayed but can be checked with 'echo $?'
 
 DISCLAIMER:
@@ -147,7 +147,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.Flags().StringVarP(&configFile, "config", "c", "", "config file to create in the app directory (default "+defaultConfigName+".yaml)")
+	rootCmd.Flags().StringVarP(&configFile, "config", "c", "", "config file to use (default "+defaultConfigName+".yaml)")
 	rootCmd.Flags().StringVarP(&domain, "domain", "d", "", "login domain (overrides the domain value in the config file)")
 	rootCmd.Flags().BoolVarP(&dryRun, "dry-run", "r", false, "dry-run the application, running full initialization and pre-snapshot calls only")
 	rootCmd.Flags().BoolVarP(&keepExisting, "keepExisting", "k", false, "do not overwrite a possible existing snapshot")
