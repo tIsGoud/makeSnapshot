@@ -61,6 +61,12 @@ Help for makeSnapshot application.
 
 _Optional flag._
 
+### --ignoreCase or -i
+
+Due to a feature request this flag was added to make the search for the 'machineName' case insensitive.
+
+_Optional flag._
+
 ### --keepExisting or -k
 
 Only one snapshot is allowed due to a platform policy. The default behaviour is to overwrite the existing snapshot. The 'keepExisting' flag makes sure that the existing snapshot is not overwritten.
@@ -100,6 +106,40 @@ In case of a failure the snapshot is not created and the exit status code is 1 o
 The exit status code is not displayed when running the aplication from the commandline but can be checked right after the applicastion has run with the following command `echo $?`.
 
 Jenkins takes notion of the status code.
+
+Sample output for a succesfull request, a failing request and how to display the exit status code:
+
+```bash
+$ ./makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t
+2019/05/29 01:33:15 Using config file: myConfig.yaml
+2019/05/29 01:33:15 Creating snapshot of virtual machine "myVirtualMachineToSnap" for tenant "tIsGoud"
+2019/05/29 01:33:15 Step 1 - Get bearer token
+2019/05/29 01:33:16 Step 2 - Get virtual machine resource ID for myVirtualMachineToSnap
+2019/05/29 01:33:16 Step 3 - Get snapshot resource action ID for myVirtualMachineToSnap
+2019/05/29 01:33:18 Step 4 - Get resource action template
+2019/05/29 01:33:18 Step 5 - Send snapshot request for myVirtualMachineToSnap
+2019/05/29 01:33:19 Step 6 - Get snapshot request status...
+2019/05/29 01:33:29 Step 6 - Snapshot request status: In Progress
+2019/05/29 01:33:39 Step 6 - Snapshot request status: In Progress
+2019/05/29 01:33:49 Step 6 - Snapshot request status: Successful
+2019/05/29 01:33:49 Bye from makeSnapshot
+
+$ ./makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t -k
+2019/05/29 01:34:11 Using config file: myConfig.yaml
+2019/05/29 01:34:11 Creating snapshot of virtual machine "myVirtualMachineToSnap" for tenant "tIsGoud"
+2019/05/29 01:34:11 Step 1 - Get bearer token
+2019/05/29 01:34:11 Step 2 - Get virtual machine resource ID for myVirtualMachineToSnap
+2019/05/29 01:34:12 Step 3 - Get snapshot resource action ID for myVirtualMachineToSnap
+2019/05/29 01:34:12 Step 4 - Get resource action template
+2019/05/29 01:34:12 Step 5 - Send snapshot request for myVirtualMachineToSnap
+2019/05/29 01:34:12 Step 6 - Get snapshot request status...
+2019/05/29 01:34:23 Step 6 - Snapshot request status: In Progress
+2019/05/29 01:34:33 Step 6 - Snapshot request status: Failed
+2019/05/29 01:34:33 Error: Snapshot request failed, check the vRA portal for more info
+
+$ echo $?
+1
+```
 
 ## Go(lang)
 

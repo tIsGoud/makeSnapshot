@@ -40,6 +40,7 @@ var (
 	configFile   string
 	domain       string
 	dryRun       bool
+	ignoreCase   bool
 	keepExisting bool
 	machineName  string
 	trace        bool
@@ -47,7 +48,7 @@ var (
 
 // Internal variables
 var (
-	version           = "0.9.4"
+	version           = "0.9.6"
 	defaultConfigName = "makeSnapshot"
 	userAgent         = "makeSnapShot " + version // Useragent with version number is used in the HTTP requests
 )
@@ -93,12 +94,15 @@ Written by A.W. Alberts - Copyright © 2019 'tIsGoud
 `,
 	Version: version,
 	Example: `  With tracing information and a non-default config file:
-  makeSnapshot -c [config.yaml] -m [virtual machine name] -t
+  makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t
 
   Without tracing and with the default configuration file:
-  makeSnapshot -m [virtual machine name]
+  makeSnapshot -m myVirtualMachineToSnap
 
-  Note: The virtual machine name is case sensitive!`,
+  Without tracing, default configuration file and case-insensitive search:
+  makeSnapshot -m myvirtualmachinetosnap -i
+
+  Note: The by default the virtual machine name is case sensitive!`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 		validateConfig()
@@ -150,8 +154,9 @@ func init() {
 	rootCmd.Flags().StringVarP(&configFile, "config", "c", "", "config file to use (default "+defaultConfigName+".yaml)")
 	rootCmd.Flags().StringVarP(&domain, "domain", "d", "", "login domain (overrides the domain value in the config file)")
 	rootCmd.Flags().BoolVarP(&dryRun, "dry-run", "r", false, "dry-run the application, running full initialization and pre-snapshot calls only")
-	rootCmd.Flags().BoolVarP(&keepExisting, "keepExisting", "k", false, "do not overwrite a possible existing snapshot")
-	rootCmd.Flags().StringVarP(&machineName, "machineName", "m", "", "name of the virtual machine to snapshot, case sensitive and required")
+	rootCmd.Flags().BoolVarP(&ignoreCase, "ignoreCase", "i", false, "do a case-insensitive search for the 'machineName'")
+	rootCmd.Flags().BoolVarP(&keepExisting, "keepExisting", "k", false, "do not overwrite an existing snapshot")
+	rootCmd.Flags().StringVarP(&machineName, "machineName", "m", "", "name of the virtual machine to snapshot, default case sensitive")
 	rootCmd.Flags().BoolVarP(&trace, "trace", "t", false, "show tracing information")
 	rootCmd.MarkFlagRequired("machineName")
 	viper.BindPFlag("domain", rootCmd.Flags().Lookup("domain"))
@@ -169,7 +174,7 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		traceInfo("Using config file:" + viper.ConfigFileUsed())
+		traceInfo("Using config file: " + viper.ConfigFileUsed())
 	}
 }
 
@@ -281,7 +286,12 @@ func getVirtualMachineResourceID(token, machine string) string {
 	}
 
 	// RegEx tested on https://regex101.com/
-	re := regexp.MustCompile(`"@type":"CatalogResource","id":"(?P<id>.{36})","iconId":"Infrastructure.CatalogItem.Machine.Virtual.vSphere","resourceTypeRef":{"id":"Infrastructure.Virtual","label":"Virtual Machine"},"name":".{3}(?P<name>` + machine + `)","description"`)
+	regex := `"@type":"CatalogResource","id":"(?P<id>.{36})","iconId":"Infrastructure.CatalogItem.Machine.Virtual.vSphere","resourceTypeRef":{"id":"Infrastructure.Virtual","label":"Virtual Machine"},"name":".{3}(?P<name>` + machine + `)","description"`
+	if ignoreCase {
+		regex = "(?i)" + regex
+	}
+
+	re := regexp.MustCompile(regex)
 	matches := re.FindStringSubmatch(string(respBody))
 	if matches == nil {
 		log.Fatalf("Error: Unable to find Catalog Resource id for virtual machine %q", machine)
