@@ -48,7 +48,7 @@ var (
 
 // Internal variables
 var (
-	version           = "0.9.6"
+	version           = "1.0.0"
 	defaultConfigName = "makeSnapshot"
 	userAgent         = "makeSnapShot " + version // Useragent with version number is used in the HTTP requests
 )

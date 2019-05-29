@@ -143,15 +143,33 @@ $ echo $?
 
 ## Go(lang)
 
-The software was written in Go, the language with the cute Gopher logo.
+The software was written in Go version 1.12.1.
 
 Being it a CLI-tool I used the combination of [Cobra](https://github.com/spf13/cobra) and [Viper](https://github.com/spf13/viper) to handle the commandline parameters and the configuration file.
 
-## Build
+## Cross platform building
 
-The software was developed on a Mac. The Linux version was created with the following command:
+The software was developed on a Mac.
 
-`env GOOS=linux GOARCH=386 go build .`
+MacOS build:
+
+```shell
+go build -o builds/macos/makeSnapshot .
+```
+
+Linux build:
+
+```shell
+env GOOS=linux GOARCH=386 go build -o builds/linux-386/makeSnapshot .
+```
+
+Windows build:
+
+```shell
+env GOOS=windows GOARCH=386 go build -o builds/windows/makeSnapshot.exe .
+```
+
+Note: For the Windows build, [mousetrap](https://github.com/inconshreveable/mousetrap) was required.
 
 ## DISCLAIMER
 
@@ -162,3 +180,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+## Personal note
+
+I see this application as a one-trick-pony, just doing one thing very well. While developing the application and through the use of the Cobra-framework and Viper, many features were added. Probably too much. Writing documentation like this 'readme.md' also felt as too much. Almost the same information can be found when running the application with --help flag.
+
+Another thing I noticed is that neither the documentation nor the help flag was used for the first implementation (or even afterwards ...). That made me wonder, why do I put all this effort in this unread documentation? Just skip it next time?
+Then I read the following quote:
+
+> Documentation is a love letter that you write to your future self - Damian Conway
+
+So next time I again will write that love letter.
