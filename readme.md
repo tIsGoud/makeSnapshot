@@ -103,11 +103,11 @@ The status of the request is checked every 10 seconds until the status is 'succe
 When the status is succesfull the snapshot is created and the exit status code will be 0.
 In case of a failure the snapshot is not created and the exit status code is 1 or higher.
 
-The exit status code is not displayed when running the aplication from the commandline but can be checked right after the applicastion has run with the following command `echo $?`.
+The exit status code is not displayed when running the application from the commandline but can be checked right after the application has run with the following command `echo $?`.
 
 Jenkins takes notion of the status code.
 
-Sample output for a succesfull request, a failing request and how to display the exit status code:
+Sample output for a succesfull request and how to display the exit status code:
 
 ```
 $ ./makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t
@@ -124,6 +124,13 @@ $ ./makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t
 2019/05/29 01:33:49 Step 6 - Snapshot request status: Successful
 2019/05/29 01:33:49 Bye from makeSnapshot
 
+$ echo $?
+0
+```
+
+ Output of a failing request with the exit status code of 1:
+
+```
 $ ./makeSnapshot -c myConfig.yaml -m myVirtualMachineToSnap -t -k
 2019/05/29 01:34:11 Using config file: myConfig.yaml
 2019/05/29 01:34:11 Creating snapshot of virtual machine "myVirtualMachineToSnap" for tenant "tIsGoud"
